@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:property-placeholder location="file:h2.properties"/>
+    <context:component-scan base-package="com.dottydingo.hyperion.northwind"/>
+
+    <!-- create the trace manager and define the top level packages (loggers) that will be traced -->
+    <bean id="traceManager" class="com.dottydingo.tracelog.DefaultTraceManager">
+        <property name="tracePackages">
+            <set>
+                <value>com.foo</value>
+            </set>
+        </property>
+    </bean>
+
+    <!-- install the turbo filter -->
+    <bean class="com.dottydingo.tracelog.logback.TraceTurboFilter" init-method="start">
+        <property name="traceManager" ref="traceManager"/>
+    </bean>
+
+    <!-- install the trace appender on the packages specified in the trace manager -->
+    <bean class="com.dottydingo.tracelog.logback.TraceAppender" init-method="init">
+        <property name="traceManager" ref="traceManager"/>
+    </bean>
+
+    <!-- the configuration for email traces  -->
+    <bean id="emailConfiguration" class="com.dottydingo.tracelog.logback.EmailConfiguration">
+        <property name="bufferSize" value="5000"/>
+        <property name="subject" value="Service Trace"/>
+        <property name="from" value="myservice@somedomain.com"/>
+        <property name="smtpHost" value="localhost"/>
+        <property name="smtpPort" value="25"/>
+        <property name="pattern" value="%d{HH:mm:ss.SSS} %logger{5}: %message%n"/>
+    </bean>
+
+    <!-- the configuration for file traces -->
+    <bean id="fileConfiguration" class="com.dottydingo.tracelog.logback.FileConfiguration">
+        <property name="pattern" value="%d{HH:mm:ss.SSS} %logger{5}: %message%n"/>
+        <property name="baseDirectory" value="/var/log/trace/"/>
+        <property name="bufferSize" value="5000"/>
+    </bean>
+
+    <!-- the factory for creating trace instances -->
+    <bean id="traceFactory" class="com.dottydingo.tracelog.logback.LogbackTraceFactory">
+        <property name="emailConfiguration" ref="emailConfiguration"/>
+        <property name="fileConfiguration" ref="fileConfiguration"/>
+    </bean>
+</beans>

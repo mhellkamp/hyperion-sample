@@ -1,0 +1,169 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+    <bean id="noOpValidator" class="com.dottydingo.hyperion.service.validation.DefaultValidator"/>
+
+
+    <bean id="keyConverter" class="com.dottydingo.hyperion.service.key.LongKeyConverter"/>
+
+    <bean id="dao" class="com.dottydingo.hyperion.service.persistence.dao.JpaDao"/>
+    <bean id="persistenceOperations" class="com.dottydingo.hyperion.service.persistence.JpaPersistenceOperations">
+        <property name="dao" ref="dao"/>
+        <property name="orderBuilderFactory">
+            <bean class="com.dottydingo.hyperion.service.persistence.sort.HyperionOrderBuilderFactory"/>
+        </property>
+        <property name="predicateBuilderFactory">
+            <bean class="com.dottydingo.hyperion.service.persistence.query.RsqlPredicateBuilderFactory"/>
+        </property>
+    </bean>
+
+    <bean id="defaultArgumentParser" class="com.dottydingo.hyperion.service.persistence.query.DefaultArgumentParser"/>
+
+    <bean id="serviceRegistry" class="com.dottydingo.hyperion.service.configuration.ServiceRegistry">
+        <property name="entityPlugins">
+            <list>
+                <bean class="com.dottydingo.hyperion.service.configuration.EntityPlugin">
+                    <property name="endpointName" value="Category"/>
+                    <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentCategory"/>
+                    <property name="keyConverter" ref="keyConverter"/>
+                    <property name="persistenceOperations" ref="persistenceOperations"/>
+                    <property name="apiVersionRegistry">
+                        <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionRegistry">
+                            <property name="plugins">
+                                <list>
+                                    <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionPlugin">
+                                        <property name="version" value="1"/>
+                                        <property name="translator">
+                                            <bean class="com.dottydingo.hyperion.service.translation.DefaultAuditingTranslator"
+                                                  init-method="init">
+                                                <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Category"/>
+                                                <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCategory"/>
+                                            </bean>
+                                        </property>
+                                        <property name="validator" ref="noOpValidator"/>
+                                        <property name="apiClass"
+                                                  value="com.dottydingo.hyperion.northwind.api.Category"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="sortBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.SortBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Category"/>
+                            <property name="excludeFields">
+                                <set>
+                                    <value>description</value>
+                                    <value>imageUrl</value>
+                                </set>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="queryBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.QueryBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Category"/>
+                            <property name="excludeFields">
+                                <set>
+                                    <value>description</value>
+                                    <value>imageUrl</value>
+                                </set>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="createKeyProcessor">
+                        <bean class="com.dottydingo.hyperion.northwind.service.CategoryCreateKeyProcessor"/>
+                    </property>
+
+                </bean>
+                <bean class="com.dottydingo.hyperion.service.configuration.EntityPlugin">
+                    <property name="endpointName" value="Customer"/>
+                    <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
+                    <property name="keyConverter" ref="keyConverter"/>
+                    <property name="persistenceOperations" ref="persistenceOperations"/>
+                    <property name="apiVersionRegistry">
+                        <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionRegistry">
+                            <property name="plugins">
+                                <list>
+                                    <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionPlugin">
+                                        <property name="version" value="1"/>
+                                        <property name="translator">
+                                            <bean class="com.dottydingo.hyperion.service.translation.DefaultAuditingTranslator"
+                                                  init-method="init">
+                                                <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Customer"/>
+                                                <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
+                                                <property name="fieldMappers">
+                                                    <list>
+                                                        <bean class="com.dottydingo.hyperion.northwind.service.translator.RegionIdFieldMapper">
+                                                            <property name="regionDao" ref="dao"/>
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </property>
+                                        <property name="validator" ref="noOpValidator"/>
+                                        <property name="apiClass"
+                                                  value="com.dottydingo.hyperion.northwind.api.Customer"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="sortBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.SortBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Customer"/>
+                        </bean>
+                    </property>
+                    <property name="queryBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.QueryBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Customer"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="com.dottydingo.hyperion.service.configuration.EntityPlugin">
+                    <property name="endpointName" value="Region"/>
+                    <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentRegion"/>
+                    <property name="keyConverter" ref="keyConverter"/>
+                    <property name="persistenceOperations" ref="persistenceOperations"/>
+                    <property name="apiVersionRegistry">
+                        <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionRegistry">
+                            <property name="plugins">
+                                <list>
+                                    <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionPlugin">
+                                        <property name="version" value="1"/>
+                                        <property name="translator">
+                                            <bean class="com.dottydingo.hyperion.service.translation.DefaultAuditingTranslator"
+                                                  init-method="init">
+                                                <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Region"/>
+                                                <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentRegion"/>
+                                            </bean>
+                                        </property>
+                                        <property name="validator" ref="noOpValidator"/>
+                                        <property name="apiClass"
+                                                  value="com.dottydingo.hyperion.northwind.api.Region"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="sortBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.SortBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Region"/>
+                        </bean>
+                    </property>
+                    <property name="queryBuilders">
+                        <bean class="com.dottydingo.hyperion.service.configuration.QueryBuilderFactoryBean">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Region"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.dottydingo.hyperion.service.endpoint.DataServiceEndpoint">
+        <property name="serviceRegistry" ref="serviceRegistry"/>
+    </bean>
+
+</beans>
