@@ -1,9 +1,11 @@
 package com.dottydingo.hyperion.northwind.api;
 
 import com.dottydingo.hyperion.api.BaseAuditableApiObject;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  */
+@JsonPropertyOrder({"id","regionName","created","createdBy","modified","modifiedBy"})
 public class Region extends BaseAuditableApiObject<Long>
 {
     private String regionName;

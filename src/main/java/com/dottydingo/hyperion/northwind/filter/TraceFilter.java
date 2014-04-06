@@ -1,10 +1,10 @@
 package com.dottydingo.hyperion.northwind.filter;
 
-import com.dottydingo.tracelog.DefaultTraceManager;
-import com.dottydingo.tracelog.Trace;
-import com.dottydingo.tracelog.TraceManager;
-import com.dottydingo.tracelog.TraceType;
-import com.dottydingo.tracelog.logback.LogbackTraceFactory;
+import com.dottydingo.service.tracelog.DefaultTraceManager;
+import com.dottydingo.service.tracelog.Trace;
+import com.dottydingo.service.tracelog.TraceManager;
+import com.dottydingo.service.tracelog.TraceType;
+import com.dottydingo.service.tracelog.logback.LogbackTraceFactory;
 
 /**
  */
@@ -18,12 +18,12 @@ public class TraceFilter
         Trace trace = traceFactory.createTrace(TraceType.email,"trace_destination@somedomain.com");
 
         // associate the trace with the current tread
-        traceManager.startTrace(trace);
+        traceManager.associateTrace(trace);
 
         //...
 
         // un-associate the trace from the current thread.
-        trace = traceManager.endTrace();
+        trace = traceManager.disassociateTrace();
 
         // close the trace and send the email
         trace.close();

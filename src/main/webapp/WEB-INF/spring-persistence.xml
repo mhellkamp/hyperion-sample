@@ -9,7 +9,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- Configure a JDBC datasource for Hibernate to connect with -->
-    <bean id="dataSource"
+    <bean id="dataSourceWrapped"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${connection.driver_class}"/>
         <property name="url" value="${connection.url}"/>
@@ -39,8 +39,12 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
+    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceWrapped" />
+    </bean>
+
     <!-- enable the configuration of transactional behavior based on annotations -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
 
 
     <!--<jpa:repositories base-package="com.dottydingo.hyperion.northwind" />-->

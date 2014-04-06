@@ -4,7 +4,7 @@ import com.dottydingo.hyperion.exception.ValidationException;
 import com.dottydingo.hyperion.northwind.api.Customer;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCustomer;
 import com.dottydingo.hyperion.northwind.service.model.PersistentRegion;
-import com.dottydingo.hyperion.service.context.RequestContext;
+import com.dottydingo.hyperion.service.persistence.PersistenceContext;
 import com.dottydingo.hyperion.service.persistence.dao.Dao;
 import com.dottydingo.hyperion.service.translation.FieldMapper;
 import com.dottydingo.hyperion.service.translation.ObjectWrapper;
@@ -27,7 +27,7 @@ public class RegionIdFieldMapper implements FieldMapper<Customer,PersistentCusto
     }
 
     @Override
-    public void convertToClient(ObjectWrapper<PersistentCustomer> persistentObjectWrapper, ObjectWrapper<Customer> clientObjectWrapper, RequestContext context)
+    public void convertToClient(ObjectWrapper<PersistentCustomer> persistentObjectWrapper, ObjectWrapper<Customer> clientObjectWrapper, PersistenceContext context)
     {
         Customer customer = clientObjectWrapper.getWrappedObject();
         PersistentCustomer persistentCustomer = persistentObjectWrapper.getWrappedObject();
@@ -36,8 +36,9 @@ public class RegionIdFieldMapper implements FieldMapper<Customer,PersistentCusto
     }
 
     @Override
-    public void convertToPersistent(ObjectWrapper<Customer> clientObjectWrapper, ObjectWrapper<PersistentCustomer> persistentObjectWrapper, RequestContext context)
+    public boolean convertToPersistent(ObjectWrapper<Customer> clientObjectWrapper, ObjectWrapper<PersistentCustomer> persistentObjectWrapper, PersistenceContext context)
     {
+        boolean dirty = false;
         Customer customer = clientObjectWrapper.getWrappedObject();
         PersistentCustomer persistentCustomer = persistentObjectWrapper.getWrappedObject();
 
@@ -47,7 +48,11 @@ public class RegionIdFieldMapper implements FieldMapper<Customer,PersistentCusto
             if(region == null)
                 throw new ValidationException(String.format("Could not find Region for id=%d",customer.getRegionId()));
 
+            if(persistentCustomer.getRegion()== null || !region.getId().equals(persistentCustomer.getRegion().getId()))
+                dirty = true;
             persistentCustomer.setRegion(region);
+
         }
+        return dirty;
     }
 }

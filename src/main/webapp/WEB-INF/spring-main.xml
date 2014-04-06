@@ -4,48 +4,57 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <context:property-placeholder location="file:h2.properties"/>
-    <context:component-scan base-package="com.dottydingo.hyperion.northwind"/>
-
-    <!-- create the trace manager and define the top level packages (loggers) that will be traced -->
-    <bean id="traceManager" class="com.dottydingo.tracelog.DefaultTraceManager">
-        <property name="tracePackages">
-            <set>
-                <value>com.foo</value>
-            </set>
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:com/dottydingo/hyperion/spring/hyperion_defualt.properties</value>
+                <value>classpath:application.properties</value>
+                <value>file:h2.properties</value>
+            </list>
         </property>
     </bean>
 
-    <!-- install the turbo filter -->
-    <bean class="com.dottydingo.tracelog.logback.TraceTurboFilter" init-method="start">
-        <property name="traceManager" ref="traceManager"/>
+    <context:component-scan base-package="com.dottydingo.hyperion.northwind"/>
+
+    <bean id="hyperionEndpoint" class="com.dottydingo.service.endpoint.spring.EndpointRequestHandler">
+        <property name="endpointHandler" ref="hyperionEndpointHandler"/>
     </bean>
 
-    <!-- install the trace appender on the packages specified in the trace manager -->
-    <bean class="com.dottydingo.tracelog.logback.TraceAppender" init-method="init">
-        <property name="traceManager" ref="traceManager"/>
+    <bean id="hyperionSwaggerRequestHandler" class="com.dottydingo.hyperion.module.swagger.EmbeddedResourcesRequestHandler">
+        <property name="swaggerSpecBuilder">
+            <bean class="com.dottydingo.hyperion.module.swagger.SwaggerSpecBuilder">
+                <property name="basePath" value="http://localhost:8080/data"/>
+                <property name="serviceRegistry" ref="hyperionServiceRegistry"/>
+                <property name="endpointConfiguration" ref="hyperionEndpointConfiguration"/>
+                <property name="objectMapper" ref="hyperionObjectMapper"/>
+            </bean>
+        </property>
+        <property name="objectMapper" ref="hyperionObjectMapper"/>
+        <property name="embeddedResources">
+            <list>
+                <bean class="com.dottydingo.hyperion.module.swagger.EmbeddedResource">
+                    <property name="path" value="test"/>
+                    <property name="description" value="foobar"/>
+                    <property name="location" value="/swagger/test.json"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
-    <!-- the configuration for email traces  -->
-    <bean id="emailConfiguration" class="com.dottydingo.tracelog.logback.EmailConfiguration">
-        <property name="bufferSize" value="5000"/>
-        <property name="subject" value="Service Trace"/>
-        <property name="from" value="myservice@somedomain.com"/>
-        <property name="smtpHost" value="localhost"/>
-        <property name="smtpPort" value="25"/>
-        <property name="pattern" value="%d{HH:mm:ss.SSS} %logger{5}: %message%n"/>
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true"/>
     </bean>
 
-    <!-- the configuration for file traces -->
-    <bean id="fileConfiguration" class="com.dottydingo.tracelog.logback.FileConfiguration">
-        <property name="pattern" value="%d{HH:mm:ss.SSS} %logger{5}: %message%n"/>
-        <property name="baseDirectory" value="/var/log/trace/"/>
-        <property name="bufferSize" value="5000"/>
-    </bean>
-
-    <!-- the factory for creating trace instances -->
-    <bean id="traceFactory" class="com.dottydingo.tracelog.logback.LogbackTraceFactory">
-        <property name="emailConfiguration" ref="emailConfiguration"/>
-        <property name="fileConfiguration" ref="fileConfiguration"/>
+    <!--
+    this bean needs to be eagerly pre-instantiated in order for the exporting to occur;
+    this means that it must not be marked as lazily initialized
+    -->
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="bean:name=testBean1" value-ref="hyperionEndpointStatus"/>
+            </map>
+        </property>
+        <property name="server" ref="mbeanServer"/>
     </bean>
 </beans>

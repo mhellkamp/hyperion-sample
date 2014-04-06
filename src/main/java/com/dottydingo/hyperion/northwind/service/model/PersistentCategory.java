@@ -1,7 +1,10 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
 
+import org.hibernate.annotations.IndexColumn;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  */
@@ -21,6 +24,11 @@ public class PersistentCategory extends BaseNorthwindPersistentObject
 
     @Column(name = "image_url", length = 1024)
     private String imageUrl;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @IndexColumn(name = "idx")
+    @JoinTable(name = "category_things",joinColumns = @JoinColumn(name = "category_id"))
+    private List<String> things;
 
     public String getCategoryName()
     {
@@ -50,5 +58,15 @@ public class PersistentCategory extends BaseNorthwindPersistentObject
     public void setImageUrl(String imageUrl)
     {
         this.imageUrl = imageUrl;
+    }
+
+    public List<String> getThings()
+    {
+        return things;
+    }
+
+    public void setThings(List<String> things)
+    {
+        this.things = things;
     }
 }
