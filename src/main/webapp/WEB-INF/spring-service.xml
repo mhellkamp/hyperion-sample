@@ -100,6 +100,31 @@
                                         <property name="translator">
                                             <bean class="com.dottydingo.hyperion.service.translation.DefaultAuditingTranslator"
                                                   init-method="init">
+                                                <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.legacy.Customer_v1"/>
+                                                <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
+                                                <property name="fieldMappers">
+                                                    <list>
+                                                        <bean class="com.dottydingo.hyperion.northwind.service.translator.RegionIdFieldMapper">
+                                                            <property name="regionDao" ref="hyperionDao"/>
+                                                        </bean>
+                                                        <bean class="com.dottydingo.hyperion.service.translation.DefaultFieldMapper">
+                                                            <constructor-arg value="zipCode"/>
+                                                            <constructor-arg value="postalCode"/>
+                                                            <constructor-arg><null/></constructor-arg>
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </property>
+                                        <property name="validator" ref="noOpValidator"/>
+                                        <property name="apiClass"
+                                                  value="com.dottydingo.hyperion.northwind.api.legacy.Customer_v1"/>
+                                    </bean>
+                                    <bean class="com.dottydingo.hyperion.service.configuration.ApiVersionPlugin">
+                                        <property name="version" value="2"/>
+                                        <property name="translator">
+                                            <bean class="com.dottydingo.hyperion.service.translation.DefaultAuditingTranslator"
+                                                  init-method="init">
                                                 <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Customer"/>
                                                 <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
                                                 <property name="fieldMappers">
@@ -140,6 +165,11 @@
                                             <property name="propertyName" value="regionName"/>
                                         </bean>
                                     </entry>
+                                    <entry key="zipCode">
+                                        <bean class="com.dottydingo.hyperion.service.persistence.sort.DefaultSortBuilder">
+                                            <property name="propertyName" value="postalCode"/>
+                                        </bean>
+                                    </entry>
                                 </map>
                             </property>
                         </bean>
@@ -163,6 +193,11 @@
                                         <bean class="com.dottydingo.hyperion.service.persistence.query.DefaultQueryBuilder">
                                             <property name="propertyPath" value="region"/>
                                             <property name="propertyName" value="regionName"/>
+                                        </bean>
+                                    </entry>
+                                    <entry key="zipCode">
+                                        <bean class="com.dottydingo.hyperion.service.persistence.query.DefaultQueryBuilder">
+                                            <property name="propertyName" value="postalCode"/>
                                         </bean>
                                     </entry>
                                 </map>

@@ -1,5 +1,6 @@
 package com.dottydingo.hyperion.northwind.service.translator;
 
+import com.dottydingo.hyperion.api.ApiObject;
 import com.dottydingo.hyperion.exception.ValidationException;
 import com.dottydingo.hyperion.northwind.api.Customer;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCustomer;
@@ -11,7 +12,7 @@ import com.dottydingo.hyperion.service.translation.ObjectWrapper;
 
 /**
  */
-public class RegionIdFieldMapper implements FieldMapper<Customer,PersistentCustomer>
+public class RegionIdFieldMapper implements FieldMapper<ApiObject,PersistentCustomer>
 {
     private Dao<PersistentRegion,Long> regionDao;
 
@@ -27,26 +28,25 @@ public class RegionIdFieldMapper implements FieldMapper<Customer,PersistentCusto
     }
 
     @Override
-    public void convertToClient(ObjectWrapper<PersistentCustomer> persistentObjectWrapper, ObjectWrapper<Customer> clientObjectWrapper, PersistenceContext context)
+    public void convertToClient(ObjectWrapper<PersistentCustomer> persistentObjectWrapper, ObjectWrapper<ApiObject> clientObjectWrapper, PersistenceContext context)
     {
-        Customer customer = clientObjectWrapper.getWrappedObject();
         PersistentCustomer persistentCustomer = persistentObjectWrapper.getWrappedObject();
 
-        customer.setRegionId(persistentCustomer.getRegion().getId());
+        clientObjectWrapper.setValue("regionId",persistentCustomer.getRegion().getId());
     }
 
     @Override
-    public boolean convertToPersistent(ObjectWrapper<Customer> clientObjectWrapper, ObjectWrapper<PersistentCustomer> persistentObjectWrapper, PersistenceContext context)
+    public boolean convertToPersistent(ObjectWrapper<ApiObject> clientObjectWrapper, ObjectWrapper<PersistentCustomer> persistentObjectWrapper, PersistenceContext context)
     {
         boolean dirty = false;
-        Customer customer = clientObjectWrapper.getWrappedObject();
+        Long regionId = (Long) clientObjectWrapper.getValue("regionId");
         PersistentCustomer persistentCustomer = persistentObjectWrapper.getWrappedObject();
 
-        if(customer.getRegionId() != null)
+        if(regionId != null)
         {
-            PersistentRegion region = regionDao.find(PersistentRegion.class,customer.getRegionId());
+            PersistentRegion region = regionDao.find(PersistentRegion.class,regionId);
             if(region == null)
-                throw new ValidationException(String.format("Could not find Region for id=%d",customer.getRegionId()));
+                throw new ValidationException(String.format("Could not find Region for id=%d",regionId));
 
             if(persistentCustomer.getRegion()== null || !region.getId().equals(persistentCustomer.getRegion().getId()))
                 dirty = true;
