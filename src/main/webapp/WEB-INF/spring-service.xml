@@ -6,8 +6,6 @@
     <bean id="noOpValidator" class="com.dottydingo.hyperion.core.validation.DefaultValidator"/>
 
 
-    <bean id="keyConverter" class="com.dottydingo.hyperion.core.key.LongKeyConverter"/>
-
     <bean id="validationMessageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
@@ -21,7 +19,6 @@
 
     <bean id="loggingChangeEventListener" class="com.dottydingo.hyperion.northwind.service.LoggingChangeEventListener"/>
     <bean id="hyperionServiceRegistry"  parent="hyperionBaseServiceRegistry">
-        <property name="defaultKeyConverter" ref="keyConverter"/>
         <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
         <property name="entities">
             <list>
