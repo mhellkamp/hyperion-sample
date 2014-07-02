@@ -2,8 +2,9 @@ package com.dottydingo.hyperion.northwind.service;
 
 import com.dottydingo.hyperion.api.BaseApiObject;
 import com.dottydingo.hyperion.core.endpoint.HttpMethod;
-import com.dottydingo.hyperion.core.persistence.EntityChangeEvent;
-import com.dottydingo.hyperion.core.persistence.EntityChangeListener;
+import com.dottydingo.hyperion.core.persistence.PersistenceContext;
+import com.dottydingo.hyperion.core.persistence.event.EntityChangeEvent;
+import com.dottydingo.hyperion.core.persistence.event.EntityChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +18,12 @@ public class LoggingChangeEventListener implements EntityChangeListener<BaseApiO
     public void processEntityChange(EntityChangeEvent<BaseApiObject<Long>> event)
     {
         Long id;
-        if(event.getHttpMethod() == HttpMethod.POST)
+        PersistenceContext persistenceContext = event.getPersistenceContext();
+        if(persistenceContext.getHttpMethod() == HttpMethod.POST)
             id = event.getUpdatedItem().getId();
         else
             id = event.getOriginalItem().getId();
 
-        logger.info("{} on {} id: {}. Changed: {}",event.getHttpMethod(),event.getEndpointName(),id,event.getUpdatedFields());
+        logger.info("{} on {} id: {}. Changed: {}",persistenceContext.getHttpMethod(),persistenceContext.getEntity(),id,event.getUpdatedFields());
     }
 }

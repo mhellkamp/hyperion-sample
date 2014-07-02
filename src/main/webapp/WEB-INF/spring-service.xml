@@ -22,6 +22,7 @@
     <bean id="loggingChangeEventListener" class="com.dottydingo.hyperion.northwind.service.LoggingChangeEventListener"/>
     <bean id="hyperionServiceRegistry"  parent="hyperionBaseServiceRegistry">
         <property name="defaultKeyConverter" ref="keyConverter"/>
+        <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
         <property name="entities">
             <list>
                 <bean class="com.dottydingo.hyperion.core.configuration.EntityPluginBuilder">
@@ -29,15 +30,12 @@
                     <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentCategory"/>
                     <property name="historyEnabled" value="true"/>
                     <property name="historyType" value="com.dottydingo.hyperion.northwind.service.model.PersistentHistoryEntry"/>
-                    <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
+                    <property name="persistentChangeListeners" ref="hyperionHistoryPersistentChangeListener"/>
                     <property name="versions">
                         <bean class="com.dottydingo.hyperion.core.configuration.ApiVersionPluginBuilder">
                             <property name="translator">
-                                <bean class="com.dottydingo.hyperion.core.translation.DefaultAuditingTranslator"
-                                      init-method="init">
-                                    <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Category"/>
-                                    <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCategory"/>
-                                </bean>
+                                <bean class="com.dottydingo.hyperion.northwind.service.translator.CategoryTranslator"
+                                      init-method="init"/>
                             </property>
                             <property name="validator">
                                 <bean class="com.dottydingo.hyperion.northwind.validation.CategoryValidator">
@@ -77,28 +75,12 @@
                 <bean class="com.dottydingo.hyperion.core.configuration.EntityPluginBuilder">
                     <property name="endpointName" value="Customer"/>
                     <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
-                    <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
                     <property name="versions">
                         <list>
                             <bean class="com.dottydingo.hyperion.core.configuration.ApiVersionPluginBuilder">
                                 <property name="translator">
-                                    <bean class="com.dottydingo.hyperion.core.translation.DefaultAuditingTranslator"
-                                          init-method="init">
-                                        <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.legacy.Customer_v1"/>
-                                        <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
-                                        <property name="fieldMappers">
-                                            <list>
-                                                <bean class="com.dottydingo.hyperion.northwind.service.translator.RegionIdFieldMapper">
-                                                    <property name="regionDao" ref="hyperionDao"/>
-                                                </bean>
-                                                <bean class="com.dottydingo.hyperion.core.translation.DefaultFieldMapper">
-                                                    <constructor-arg value="zipCode"/>
-                                                    <constructor-arg value="postalCode"/>
-                                                    <constructor-arg><null/></constructor-arg>
-                                                </bean>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean class="com.dottydingo.hyperion.northwind.service.translator.legacy.Customer_v1Translator"
+                                          init-method="init"/>
                                 </property>
                                 <property name="validator" ref="noOpValidator"/>
                                 <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.legacy.Customer_v1"/>
@@ -166,18 +148,8 @@
                             </bean>
                             <bean class="com.dottydingo.hyperion.core.configuration.ApiVersionPluginBuilder">
                                 <property name="translator">
-                                    <bean class="com.dottydingo.hyperion.core.translation.DefaultAuditingTranslator"
-                                          init-method="init">
-                                        <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Customer"/>
-                                        <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
-                                        <property name="fieldMappers">
-                                            <list>
-                                                <bean class="com.dottydingo.hyperion.northwind.service.translator.RegionIdFieldMapper">
-                                                    <property name="regionDao" ref="hyperionDao"/>
-                                                </bean>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean class="com.dottydingo.hyperion.northwind.service.translator.CustomerTranslator"
+                                          init-method="init"/>
                                 </property>
                                 <property name="validator" ref="noOpValidator"/>
                                 <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Customer"/>
@@ -254,11 +226,8 @@
                     <property name="versions">
                         <bean class="com.dottydingo.hyperion.core.configuration.ApiVersionPluginBuilder">
                             <property name="translator">
-                                <bean class="com.dottydingo.hyperion.core.translation.DefaultAuditingTranslator"
-                                      init-method="init">
-                                    <constructor-arg index="0" value="com.dottydingo.hyperion.northwind.api.Region"/>
-                                    <constructor-arg index="1" value="com.dottydingo.hyperion.northwind.service.model.PersistentRegion"/>
-                                </bean>
+                                <bean class="com.dottydingo.hyperion.northwind.service.translator.RegionTranslator"
+                                      init-method="init"/>
                             </property>
                             <property name="validator" ref="noOpValidator"/>
                             <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Region"/>

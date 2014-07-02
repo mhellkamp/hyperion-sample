@@ -8,11 +8,16 @@ import com.dottydingo.hyperion.core.persistence.PersistenceContext;
 import com.dottydingo.hyperion.core.persistence.dao.Dao;
 import com.dottydingo.hyperion.core.translation.FieldMapper;
 import com.dottydingo.hyperion.core.translation.ObjectWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
+ *
  */
+@Component
 public class RegionIdFieldMapper implements FieldMapper<ApiObject,PersistentCustomer>
 {
+    @Autowired
     private Dao<PersistentRegion,Long,?,?> regionDao;
 
     public void setRegionDao(Dao<PersistentRegion, Long,?,?> regionDao)
