@@ -1,7 +1,7 @@
 package com.dottydingo.hyperion.northwind.service;
 
 import com.dottydingo.hyperion.northwind.api.Category;
-import com.dottydingo.hyperion.service.persistence.CreateKeyProcessor;
+import com.dottydingo.hyperion.core.persistence.CreateKeyProcessor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ public class CategoryCreateKeyProcessor implements CreateKeyProcessor<Category, 
     private EntityManager em;
 
     @Override
-    public Long lookup(Category item)
+    public Long lookup(Category item, com.dottydingo.hyperion.core.persistence.PersistenceContext persistenceContext)
     {
         if(item.getCategoryName() == null)
             return null;

@@ -1,6 +1,6 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
-import com.dottydingo.hyperion.service.model.BaseAuditablePersistentObject;
+import com.dottydingo.hyperion.jpa.model.BaseAuditablePersistentObject;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

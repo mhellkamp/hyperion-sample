@@ -1,11 +1,14 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 /**
  */
 @Entity
 @Table(name = "customers")
+@DynamicUpdate
 @AttributeOverrides(
         {@AttributeOverride(name = "id",column = @Column(name = "customer_id"))}
 )

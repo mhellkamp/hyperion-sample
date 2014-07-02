@@ -7,7 +7,7 @@
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:com/dottydingo/hyperion/spring/hyperion_defualt.properties</value>
+                <value>classpath:com/dottydingo/hyperion/core/spring/hyperion_default.properties</value>
                 <value>classpath:application.properties</value>
                 <value>file:h2.properties</value>
             </list>
@@ -20,7 +20,7 @@
         <property name="endpointHandler" ref="hyperionEndpointHandler"/>
     </bean>
 
-    <bean id="hyperionSwaggerRequestHandler" class="com.dottydingo.hyperion.module.swagger.EmbeddedResourcesRequestHandler">
+    <bean id="hyperionSwaggerRequestHandler" class="com.dottydingo.hyperion.module.swagger.SwaggerRequestHandler">
         <property name="swaggerSpecBuilder">
             <bean class="com.dottydingo.hyperion.module.swagger.SwaggerSpecBuilder">
                 <property name="basePath" value="http://localhost:8080/data"/>
@@ -29,10 +29,9 @@
                 <property name="objectMapper" ref="hyperionObjectMapper"/>
             </bean>
         </property>
-        <property name="objectMapper" ref="hyperionObjectMapper"/>
-        <property name="embeddedResources">
+        <property name="additionalResources">
             <list>
-                <bean class="com.dottydingo.hyperion.module.swagger.EmbeddedResource">
+                <bean class="com.dottydingo.hyperion.module.swagger.EmbeddedResourceHandler">
                     <property name="path" value="test"/>
                     <property name="description" value="foobar"/>
                     <property name="location" value="/swagger/test.json"/>
@@ -53,6 +52,15 @@
         <property name="beans">
             <map>
                 <entry key="bean:name=testBean1" value-ref="hyperionEndpointStatus"/>
+                <entry key="executors:name=endpointValidation" value-ref="hyperionEndpointValidationTpExecutorMbean"/>
+                <entry key="executors:name=query" value-ref="hyperionQueryTpExecutorMbean"/>
+                <entry key="executors:name=get" value-ref="hyperionGetTpExecutorMbean"/>
+                <entry key="executors:name=create" value-ref="hyperionCreateTpExecutorMbean"/>
+                <entry key="executors:name=update" value-ref="hyperionUpdateTpExecutorMbean"/>
+                <entry key="executors:name=delete" value-ref="hyperionDeleteTpExecutorMbean"/>
+                <entry key="executors:name=history" value-ref="hyperionHistoryTpExecutorMbean"/>
+                <entry key="executors:name=options" value-ref="hyperionOptionsTpExecutorMbean"/>
+                <entry key="executors:name=marshall" value-ref="hyperionMarhallTpExecutorMbean"/>
             </map>
         </property>
         <property name="server" ref="mbeanServer"/>

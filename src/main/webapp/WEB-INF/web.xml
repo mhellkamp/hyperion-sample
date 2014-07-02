@@ -7,12 +7,13 @@
 <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:com/dottydingo/hyperion/spring/spring-hyperion-data.xml,
-            classpath:com/dottydingo/hyperion/spring/spring-hyperion-endpoint.xml,
-            classpath:com/dottydingo/hyperion/spring/spring-hyperion-phase.xml,
-            <!--classpath:com/dottydingo/hyperion/spring/spring-hyperion-pipeline-synchronous.xml,-->
-            classpath:com/dottydingo/hyperion/spring/spring-hyperion-pipeline-asynchronous.xml,
-            classpath:com/dottydingo/hyperion/spring/spring-hyperion-management.xml,
+            classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-data.xml,
+            classpath:com/dottydingo/hyperion/jpa/spring/spring-hyperion-data-jpa.xml,
+            classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-endpoint.xml,
+            classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-phase.xml,
+            <!--classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-pipeline-synchronous.xml,-->
+            classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-pipeline-asynchronous.xml,
+            classpath:com/dottydingo/hyperion/core/spring/spring-hyperion-management.xml,
             WEB-INF/spring-main.xml,
             WEB-INF/spring-persistence.xml,
             WEB-INF/spring-service.xml

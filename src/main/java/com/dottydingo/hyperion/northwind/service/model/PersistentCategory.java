@@ -1,6 +1,9 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
 
+
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.IndexColumn;
 
 import javax.persistence.*;
@@ -10,6 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "categories")
+@DynamicUpdate
 @AttributeOverrides(
         {@AttributeOverride(name = "id",column = @Column(name = "category_id"))}
 )
@@ -27,6 +31,7 @@ public class PersistentCategory extends BaseNorthwindPersistentObject
 
     @ElementCollection(fetch = FetchType.EAGER)
     @IndexColumn(name = "idx")
+    @BatchSize(size = 50)
     @JoinTable(name = "category_things",joinColumns = @JoinColumn(name = "category_id"))
     private List<String> things;
 

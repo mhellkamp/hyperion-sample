@@ -1,9 +1,9 @@
 package com.dottydingo.hyperion.northwind.service;
 
 import com.dottydingo.hyperion.api.BaseApiObject;
-import com.dottydingo.hyperion.service.context.HttpMethod;
-import com.dottydingo.hyperion.service.persistence.EntityChangeEvent;
-import com.dottydingo.hyperion.service.persistence.EntityChangeListener;
+import com.dottydingo.hyperion.core.endpoint.HttpMethod;
+import com.dottydingo.hyperion.core.persistence.EntityChangeEvent;
+import com.dottydingo.hyperion.core.persistence.EntityChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

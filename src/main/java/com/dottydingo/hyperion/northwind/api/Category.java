@@ -1,6 +1,7 @@
 package com.dottydingo.hyperion.northwind.api;
 
 import com.dottydingo.hyperion.api.BaseAuditableApiObject;
+import com.dottydingo.hyperion.api.Endpoint;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  */
 @JsonPropertyOrder({"id","categoryName","description","imageUrl","created","createdBy","modified","modifiedBy"})
+@Endpoint("Category")
 public class Category extends BaseAuditableApiObject<Long>
 {
     private String categoryName;

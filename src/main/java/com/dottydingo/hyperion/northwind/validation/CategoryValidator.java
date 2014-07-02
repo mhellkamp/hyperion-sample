@@ -1,11 +1,10 @@
 package com.dottydingo.hyperion.northwind.validation;
 
-import com.dottydingo.hyperion.exception.HyperionException;
 import com.dottydingo.hyperion.northwind.api.Category;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCategory;
-import com.dottydingo.hyperion.service.persistence.PersistenceContext;
-import com.dottydingo.hyperion.service.validation.DefaultValidator;
-import com.dottydingo.hyperion.service.validation.ValidationErrorContext;
+import com.dottydingo.hyperion.core.persistence.PersistenceContext;
+import com.dottydingo.hyperion.core.validation.DefaultValidator;
+import com.dottydingo.hyperion.core.validation.ValidationErrorContext;
 
 /**
  */
@@ -15,7 +14,14 @@ public class CategoryValidator extends DefaultValidator<Category,PersistentCateg
     protected void validateCreate(Category clientObject, ValidationErrorContext errorContext, PersistenceContext persistenceContext)
     {
         super.validateCreate(clientObject, errorContext, persistenceContext);
+
+        validateRequired(errorContext,"categoryName",clientObject.getCategoryName());
+        validateLength(errorContext,"categoryName",clientObject.getCategoryName(),255);
+
+        validateRequired(errorContext,"imageUrl",clientObject.getImageUrl());
+        validateLength(errorContext,"imageUrl",clientObject.getCategoryName(),1024);
+
         if("error".equals(clientObject.getCategoryName()))
-            throw new HyperionException(401,"Nope");
+            errorContext.addValidationError("TEST_ERROR","categoryName");
     }
 }

@@ -1,12 +1,14 @@
 package com.dottydingo.hyperion.northwind.api.legacy;
 
 import com.dottydingo.hyperion.api.BaseAuditableApiObject;
+import com.dottydingo.hyperion.api.Endpoint;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  */
 @JsonPropertyOrder({"id","companyName","contactName","contactTitle","address","city","regionId","zipCode","country",
         "phone","fax","created","createdBy","modified","modifiedBy"})
+@Endpoint(value = "Customer",version = 1)
 public class Customer_v1 extends BaseAuditableApiObject<Long>
 {
     private String companyName;

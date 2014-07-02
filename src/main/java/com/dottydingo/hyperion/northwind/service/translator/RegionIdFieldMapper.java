@@ -1,22 +1,21 @@
 package com.dottydingo.hyperion.northwind.service.translator;
 
 import com.dottydingo.hyperion.api.ApiObject;
-import com.dottydingo.hyperion.exception.ValidationException;
-import com.dottydingo.hyperion.northwind.api.Customer;
+import com.dottydingo.hyperion.api.exception.ValidationException;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCustomer;
 import com.dottydingo.hyperion.northwind.service.model.PersistentRegion;
-import com.dottydingo.hyperion.service.persistence.PersistenceContext;
-import com.dottydingo.hyperion.service.persistence.dao.Dao;
-import com.dottydingo.hyperion.service.translation.FieldMapper;
-import com.dottydingo.hyperion.service.translation.ObjectWrapper;
+import com.dottydingo.hyperion.core.persistence.PersistenceContext;
+import com.dottydingo.hyperion.core.persistence.dao.Dao;
+import com.dottydingo.hyperion.core.translation.FieldMapper;
+import com.dottydingo.hyperion.core.translation.ObjectWrapper;
 
 /**
  */
 public class RegionIdFieldMapper implements FieldMapper<ApiObject,PersistentCustomer>
 {
-    private Dao<PersistentRegion,Long> regionDao;
+    private Dao<PersistentRegion,Long,?,?> regionDao;
 
-    public void setRegionDao(Dao<PersistentRegion, Long> regionDao)
+    public void setRegionDao(Dao<PersistentRegion, Long,?,?> regionDao)
     {
         this.regionDao = regionDao;
     }

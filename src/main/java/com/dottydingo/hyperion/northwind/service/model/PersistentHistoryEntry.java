@@ -1,6 +1,6 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
-import com.dottydingo.hyperion.service.model.DefaultPersistentHistoryEntry;
+import com.dottydingo.hyperion.jpa.model.DefaultPersistentHistoryEntry;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
