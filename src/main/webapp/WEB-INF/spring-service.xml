@@ -5,18 +5,6 @@
 
     <bean id="noOpValidator" class="com.dottydingo.hyperion.core.validation.DefaultValidator"/>
 
-
-    <bean id="validationMessageSource"
-          class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>com.dottydingo.hyperion.core.validation.hyperion_validation_messages</value>
-                <value>com.dottydingo.hyperion.northwind.service.validation.ValidationMessages</value>
-            </list>
-        </property>
-    </bean>
-
-
     <bean id="loggingChangeEventListener" class="com.dottydingo.hyperion.northwind.service.LoggingChangeEventListener"/>
     <bean id="hyperionServiceRegistry"  parent="hyperionBaseServiceRegistry">
         <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
@@ -36,9 +24,7 @@
                                       init-method="init"/>
                             </property>
                             <property name="validator">
-                                <bean class="com.dottydingo.hyperion.northwind.validation.CategoryValidator">
-                                    <property name="messageSource" ref="validationMessageSource"/>
-                                </bean>
+                                <bean class="com.dottydingo.hyperion.northwind.validation.CategoryValidator"/>
                             </property>
                             <property name="sortExcludeFields" value="description,imageUrl"/>
                             <property name="queryExcludeFields" value="description,imageUrl"/>
