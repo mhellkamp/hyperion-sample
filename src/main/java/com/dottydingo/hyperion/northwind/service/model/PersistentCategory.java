@@ -29,12 +29,6 @@ public class PersistentCategory extends BaseNorthwindPersistentObject
     @Column(name = "image_url", length = 1024)
     private String imageUrl;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @IndexColumn(name = "idx")
-    @BatchSize(size = 50)
-    @JoinTable(name = "category_things",joinColumns = @JoinColumn(name = "category_id"))
-    private List<String> things;
-
     public String getCategoryName()
     {
         return categoryName;
@@ -65,13 +59,4 @@ public class PersistentCategory extends BaseNorthwindPersistentObject
         this.imageUrl = imageUrl;
     }
 
-    public List<String> getThings()
-    {
-        return things;
-    }
-
-    public void setThings(List<String> things)
-    {
-        this.things = things;
-    }
 }

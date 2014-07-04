@@ -26,7 +26,6 @@
                 <property name="basePath" value="http://localhost:8080/data"/>
                 <property name="serviceRegistry" ref="hyperionServiceRegistry"/>
                 <property name="endpointConfiguration" ref="hyperionEndpointConfiguration"/>
-                <property name="objectMapper" ref="hyperionObjectMapper"/>
             </bean>
         </property>
         <property name="additionalResources">

@@ -13,9 +13,6 @@ import java.util.List;
 public class Region extends BaseAuditableApiObject<Long>
 {
     private String regionName;
-    private LoopThing loopThing;
-    private List<LoopThing> manyLoopThings;
-
 
     public String getRegionName()
     {
@@ -25,25 +22,5 @@ public class Region extends BaseAuditableApiObject<Long>
     public void setRegionName(String regionName)
     {
         this.regionName = regionName;
-    }
-
-    public LoopThing getLoopThing()
-    {
-        return loopThing;
-    }
-
-    public void setLoopThing(LoopThing loopThing)
-    {
-        this.loopThing = loopThing;
-    }
-
-    public List<LoopThing> getManyLoopThings()
-    {
-        return manyLoopThings;
-    }
-
-    public void setManyLoopThings(List<LoopThing> manyLoopThings)
-    {
-        this.manyLoopThings = manyLoopThings;
     }
 }

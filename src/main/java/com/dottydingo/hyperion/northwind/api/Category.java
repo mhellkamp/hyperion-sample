@@ -15,7 +15,6 @@ public class Category extends BaseAuditableApiObject<Long>
     private String categoryName;
     private String description;
     private String imageUrl;
-    private List<String> things;
 
     public String getCategoryName()
     {
@@ -47,13 +46,4 @@ public class Category extends BaseAuditableApiObject<Long>
         this.imageUrl = imageUrl;
     }
 
-    public List<String> getThings()
-    {
-        return things;
-    }
-
-    public void setThings(List<String> things)
-    {
-        this.things = things;
-    }
 }
