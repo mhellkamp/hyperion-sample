@@ -2,12 +2,13 @@ package smoketest;
 
 import com.dottydingo.hyperion.client.AuthorizationFactory;
 import com.dottydingo.hyperion.client.MultiMap;
+import com.dottydingo.hyperion.client.ResettableAuthorizationFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  */
-public class MyAuthorizationFactory implements AuthorizationFactory
+public class MyAuthorizationFactory implements ResettableAuthorizationFactory
 {
     private AtomicInteger count = new AtomicInteger(0);
     @Override
@@ -30,5 +31,11 @@ public class MyAuthorizationFactory implements AuthorizationFactory
         MultiMap map = new MultiMap();
         map.add("authParam","p"+count.getAndIncrement());
         return map;
+    }
+
+    @Override
+    public void reset()
+    {
+        System.out.println("***reset***");
     }
 }
