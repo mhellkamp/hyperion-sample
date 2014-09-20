@@ -16,7 +16,7 @@ public class SmokeTest
         HyperionClient client = new HyperionClient("http://localhost:8080/data",new MyAuthorizationFactory());
         client.setClientEventListener(new MyEventListener());
 
-        RequestFactory<Category,Long> factory = new RequestFactory<Category, Long>(1,Category.class);
+        RequestFactory<Category,Long> factory = new RequestFactory<Category, Long>(Category.class);
 
         Category category = new Category();
         category.setCategoryName("my new foo");
