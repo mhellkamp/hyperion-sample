@@ -1,4 +1,4 @@
-package com.dottydingo.hyperion.northwind.validation;
+package com.dottydingo.hyperion.northwind.service.validation;
 
 import com.dottydingo.hyperion.northwind.api.Category;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCategory;

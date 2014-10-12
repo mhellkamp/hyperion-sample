@@ -21,7 +21,8 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
         <property name="loadTimeWeaver">
             <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
         </property>
-        <property name="persistenceUnitName" value="teamwork"/>
+        <property name="persistenceUnitName" value="hyperionEntityManager"/>
+        <property name="beanName" value="hyperionEntityManager"/>
         <property name="packagesToScan" value="com.dottydingo.hyperion.northwind"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">

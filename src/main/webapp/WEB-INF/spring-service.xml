@@ -24,12 +24,12 @@
                                       init-method="init"/>
                             </property>
                             <property name="validator">
-                                <bean class="com.dottydingo.hyperion.northwind.validation.CategoryValidator"/>
+                                <bean class="com.dottydingo.hyperion.northwind.service.validation.CategoryValidator"/>
                             </property>
                             <property name="sortExcludeFields" value="description,imageUrl"/>
                             <property name="queryExcludeFields" value="description,imageUrl"/>
                             <property name="createKeyProcessor">
-                                <bean class="com.dottydingo.hyperion.northwind.service.CategoryCreateKeyProcessor"/>
+                                <bean class="com.dottydingo.hyperion.northwind.service.persistence.CategoryCreateKeyProcessor"/>
                             </property>
                         </bean>
                     </property>
@@ -155,6 +155,52 @@
                     </property>
 
                 </bean>
+                <bean class="com.dottydingo.hyperion.core.configuration.EntityPluginBuilder">
+                    <property name="endpointName" value="Territory"/>
+                    <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentTerritory"/>
+                    <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
+                    <property name="versions">
+                        <bean class="com.dottydingo.hyperion.jpa.configuration.JpaDefaultsVersionPluginBuilder">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Territory"/>
+                            <property name="translator">
+                                <bean class="com.dottydingo.hyperion.northwind.service.translator.TerritoryTranslator"
+                                      init-method="init"/>
+                            </property>
+                            <property name="validator">
+                                <bean class="com.dottydingo.hyperion.northwind.service.validation.TerritoryValidator"/>
+                            </property>
+                        </bean>
+                    </property>
+
+                </bean>
+                <bean class="com.dottydingo.hyperion.core.configuration.EntityPluginBuilder">
+                    <property name="endpointName" value="Employee"/>
+                    <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentEmployee"/>
+                    <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
+                    <property name="versions">
+                        <bean class="com.dottydingo.hyperion.jpa.configuration.JpaDefaultsVersionPluginBuilder">
+                            <property name="apiClass" value="com.dottydingo.hyperion.northwind.api.Employee"/>
+                            <property name="translator">
+                                <bean class="com.dottydingo.hyperion.northwind.service.translator.EmployeeTranslator"
+                                      init-method="init"/>
+                            </property>
+                            <property name="validator">
+                                <bean class="com.dottydingo.hyperion.northwind.service.validation.EmployeeValidator"/>
+                            </property>
+                            <property name="queryExcludeFields" value="territoryIds"/>
+                            <property name="sortExcludeFields" value="territoryIds"/>
+                            <property name="queryBuilders">
+                                <map>
+                                    <entry key="territoryId">
+                                        <bean class="com.dottydingo.hyperion.northwind.service.persistence.TerritoryIdQueryBuilder"/>
+                                    </entry>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+
+                </bean>
+
             </list>
         </property>
     </bean>

@@ -1,4 +1,4 @@
-package com.dottydingo.hyperion.northwind.service;
+package com.dottydingo.hyperion.northwind.service.persistence;
 
 import com.dottydingo.hyperion.northwind.api.Category;
 import com.dottydingo.hyperion.core.persistence.CreateKeyProcessor;
