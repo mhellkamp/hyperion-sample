@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.dottydingo.hyperion</groupId>
             <artifactId>hyperion-jpa</artifactId>
-            <version>1.0.0-RC1</version>
+            <version>1.0.0-RC3</version>
         </dependency>
 
         <dependency>
