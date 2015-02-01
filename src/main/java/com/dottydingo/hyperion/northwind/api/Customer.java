@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  */
 @JsonPropertyOrder({"id","companyName","contactName","contactTitle","address","city","regionId","postalCode","country",
-        "phone","fax","created","createdBy","modified","modifiedBy"})
+        "phone","fax","creditRating","created","createdBy","modified","modifiedBy"})
 @Endpoint(value = "Customer",version = 2)
 public class Customer extends BaseAuditableApiObject<Long>
 {
@@ -21,6 +21,7 @@ public class Customer extends BaseAuditableApiObject<Long>
     private String country;
     private String phone;
     private String fax;
+    private CustomerCreditRatingType creditRating;
 
     public String getCompanyName()
     {
@@ -120,5 +121,15 @@ public class Customer extends BaseAuditableApiObject<Long>
     public void setFax(String fax)
     {
         this.fax = fax;
+    }
+
+    public CustomerCreditRatingType getCreditRating()
+    {
+        return creditRating;
+    }
+
+    public void setCreditRating(CustomerCreditRatingType creditRating)
+    {
+        this.creditRating = creditRating;
     }
 }

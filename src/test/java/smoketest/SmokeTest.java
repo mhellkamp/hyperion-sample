@@ -4,6 +4,7 @@ import com.dottydingo.hyperion.api.EntityResponse;
 import com.dottydingo.hyperion.client.HyperionClient;
 import com.dottydingo.hyperion.client.builder.*;
 import com.dottydingo.hyperion.api.exception.HyperionException;
+import com.dottydingo.hyperion.client.builder.query.QueryBuilder;
 import com.dottydingo.hyperion.northwind.api.Category;
 
 
@@ -13,6 +14,7 @@ public class SmokeTest
 {
     public static void main(String[] args) throws Exception
     {
+        QueryBuilder qb =  new QueryBuilder();
         HyperionClient client = new HyperionClient("http://localhost:8080/data",new MyAuthorizationFactory());
         client.setClientEventListener(new MyEventListener());
 
@@ -41,7 +43,7 @@ public class SmokeTest
         cats = factory.find(updated.getId()).execute(client);
         System.out.println(cats.getResponseCount());
 
-        cats = factory.query("id=gt=1")
+        cats = factory.query(qb.gt("id",1))
                 .start(1L)
                 .limit(9L)
                 .returnFields("id","categoryName")
@@ -53,7 +55,7 @@ public class SmokeTest
             System.out.printf("%s - %s\n", c.getId(), c.getCategoryName());
         }
 
-        cats = factory.query("id=gt=1")
+        cats = factory.query(qb.gt("id",1))
                 .start(1L)
                 .limit(9L)
                 .returnFields("id","categoryName")

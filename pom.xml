@@ -11,7 +11,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <jersey.version>1.14</jersey.version>
+        <hyperion.version>1.1.0-SNAPSHOT</hyperion.version>
         <hibernate.version>4.1.7.Final</hibernate.version>
         <spring.version>4.0.1.RELEASE</spring.version>
         <logback.version>1.0.13</logback.version>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.dottydingo.hyperion</groupId>
             <artifactId>hyperion-jpa</artifactId>
-            <version>1.0.0-RC3</version>
+            <version>${hyperion.version}</version>
         </dependency>
 
         <dependency>
@@ -226,7 +226,7 @@
         <dependency>
             <groupId>com.dottydingo.hyperion</groupId>
             <artifactId>hyperion-client</artifactId>
-            <version>1.0.0-RC1</version>
+            <version>${hyperion.version}</version>
             <scope>test</scope>
             <optional>true</optional>
         </dependency>

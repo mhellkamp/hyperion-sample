@@ -1,5 +1,6 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
+import com.dottydingo.hyperion.northwind.api.CustomerCreditRatingType;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -45,6 +46,9 @@ public class PersistentCustomer extends BaseNorthwindPersistentObject
     @Column(name = "fax", length = 24)
     private String fax;
 
+    @Column(name = "credit_rating", length = 50)
+    @Enumerated(EnumType.STRING)
+    private CustomerCreditRatingType creditRating = CustomerCreditRatingType.NONE;
 
     public String getCompanyName()
     {
@@ -144,5 +148,15 @@ public class PersistentCustomer extends BaseNorthwindPersistentObject
     public void setFax(String fax)
     {
         this.fax = fax;
+    }
+
+    public CustomerCreditRatingType getCreditRating()
+    {
+        return creditRating;
+    }
+
+    public void setCreditRating(CustomerCreditRatingType creditRating)
+    {
+        this.creditRating = creditRating;
     }
 }
