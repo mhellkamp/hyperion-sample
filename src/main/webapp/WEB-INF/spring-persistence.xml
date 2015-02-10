@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <!-- Configure a JDBC datasource for Hibernate to connect with -->
-    <bean id="dataSourceWrapped"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${connection.driver_class}"/>
-        <property name="url" value="${connection.url}"/>
-        <property name="username" value="${connection.username}"/>
+
+    <bean id="dataSourceWrapped" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${connection.driver_class}"/>
+        <property name="jdbcUrl" value="${connection.url}"/>
+        <property name="user" value="${connection.username}"/>
         <property name="password" value="${connection.password}"/>
+        <property name="maxPoolSize" value="25"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="testConnectionOnCheckout" value="false"/>
+        <property name="testConnectionOnCheckin" value="false"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="maxConnectionAge" value="600"/>
+        <property name="maxIdleTime" value="300"/>
+        <property name="acquireRetryAttempts" value="5"/>
     </bean>
+
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="loadTimeWeaver">
@@ -41,7 +45,7 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <constructor-arg ref="dataSourceWrapped" />
+        <constructor-arg ref="dataSourceWrapped"/>
     </bean>
 
     <!-- enable the configuration of transactional behavior based on annotations -->

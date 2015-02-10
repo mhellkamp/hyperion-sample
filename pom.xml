@@ -61,6 +61,11 @@
             <version>0.2.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5</version>
+        </dependency>
 
         <dependency>
             <!-- H2 Database  -->
@@ -72,7 +77,7 @@
             <!-- MySQL  -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.0.4</version>
+            <version>5.1.34</version>
         </dependency>
 
         <dependency>
