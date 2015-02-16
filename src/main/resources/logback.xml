@@ -15,6 +15,7 @@
     <logger name="com.dottydingo" level="TRACE"/>
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqltiming" level="INFO"/>
+    <logger name="net.ttddyy.dsproxy.listener.SLF4JQueryLoggingListener" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
