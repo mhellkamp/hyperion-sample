@@ -44,8 +44,17 @@
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
-    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+    <!--<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
         <constructor-arg ref="dataSourceWrapped"/>
+    </bean>-->
+
+    <bean id="dataSource" class="net.ttddyy.dsproxy.support.ProxyDataSource">
+        <property name="dataSource" ref="dataSourceWrapped"/>
+        <property name="listener">
+            <bean class="net.ttddyy.dsproxy.listener.SLF4JQueryLoggingListener">
+                <property name="logLevel" value="DEBUG"/>
+            </bean>
+        </property>
     </bean>
 
     <!-- enable the configuration of transactional behavior based on annotations -->
