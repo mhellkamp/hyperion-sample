@@ -7,7 +7,7 @@
 
     <bean id="loggingChangeEventListener" class="com.dottydingo.hyperion.northwind.service.LoggingChangeEventListener"/>
     <bean id="hyperionServiceRegistry"  parent="hyperionBaseServiceRegistry">
-        <!--<property name="entityChangeListeners" ref="loggingChangeEventListener"/>-->
+        <property name="entityChangeListeners" ref="loggingChangeEventListener"/>
         <property name="entities">
             <list>
                 <bean class="com.dottydingo.hyperion.core.configuration.EntityPluginBuilder">
