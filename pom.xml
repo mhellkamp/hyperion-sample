@@ -72,6 +72,12 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
             <!-- H2 Database  -->
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -111,6 +117,20 @@
 
     </dependencies>
 
+    <!-- Add the nexus repository to pull in snapshots -->
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

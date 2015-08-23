@@ -9,7 +9,10 @@
             <list>
                 <value>classpath:com/dottydingo/hyperion/core/spring/hyperion_default.properties</value>
                 <value>classpath:application.properties</value>
+                <!-- Uncomment this line for using an embedded h2 database -->
                 <value>file:h2.properties</value>
+                <!-- Uncomment this line for using a mysql database -->
+                <!--<value>file:mysql.properties</value>-->
             </list>
         </property>
     </bean>
