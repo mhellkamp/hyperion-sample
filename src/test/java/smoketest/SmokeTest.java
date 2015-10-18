@@ -1,5 +1,6 @@
 package smoketest;
 
+import com.dottydingo.hyperion.api.EntityList;
 import com.dottydingo.hyperion.api.EntityResponse;
 import com.dottydingo.hyperion.client.HyperionClient;
 import com.dottydingo.hyperion.client.builder.*;
@@ -29,8 +30,7 @@ public class SmokeTest
 
         System.out.println(category.getId());
 
-        EntityResponse<Category> cats = factory.find(category.getId()).returnFields("id","categoryName").execute(client);
-        System.out.println(cats.getResponseCount());
+        EntityList<Category> cats = factory.find(category.getId()).returnFields("id","categoryName").execute(client);
         System.out.println(cats.getEntries().get(0).getId() + " " + cats.getEntries().get(0).getCategoryName());
 
         category.setCategoryName("some other x");
@@ -41,7 +41,6 @@ public class SmokeTest
         System.out.println(factory.delete(updated.getId()).execute(client));
 
         cats = factory.find(updated.getId()).execute(client);
-        System.out.println(cats.getResponseCount());
 
         cats = factory.query(qb.gt("id",1))
                 .start(1L)

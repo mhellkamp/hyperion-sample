@@ -2,7 +2,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %X{CID} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
         <!--
         Only log entries that match the configured logger level (so we don't leak to other appenders when a trace
