@@ -41,42 +41,12 @@
                     <property name="entityClass" value="com.dottydingo.hyperion.northwind.service.model.PersistentCustomer"/>
 
                     <!-- add defaults that map apply to all versions (though can be overridden)-->
-                    <property name="defaultSortBuilders">
-                        <map>
-                            <entry key="regionName">
-                                <bean class="com.dottydingo.hyperion.jpa.persistence.sort.DefaultJpaEntitySortBuilder">
-                                    <property name="propertyPath" value="region"/>
-                                    <property name="propertyName" value="regionName"/>
-                                </bean>
-                            </entry>
-                        </map>
-                    </property>
-                    <property name="overrideSortBuilders">
-                        <map>
-                            <entry key="regionId">
-                                <bean class="com.dottydingo.hyperion.jpa.persistence.sort.DefaultJpaEntitySortBuilder">
-                                    <property name="propertyPath" value="region"/>
-                                    <property name="propertyName" value="id"/>
-                                </bean>
-                            </entry>
-                        </map>
-                    </property>
                     <property name="defaultQueryBuilders">
                         <map>
                             <entry key="regionName">
                                 <bean class="com.dottydingo.hyperion.jpa.persistence.query.DefaultJpaEntityQueryBuilder">
                                     <property name="propertyPath" value="region"/>
                                     <property name="propertyName" value="regionName"/>
-                                </bean>
-                            </entry>
-                        </map>
-                    </property>
-                    <property name="overrideQueryBuilders">
-                        <map>
-                            <entry key="regionId">
-                                <bean class="com.dottydingo.hyperion.jpa.persistence.query.DefaultJpaEntityQueryBuilder">
-                                    <property name="propertyPath" value="region"/>
-                                    <property name="propertyName" value="id"/>
                                 </bean>
                             </entry>
                         </map>
@@ -118,7 +88,9 @@
                                     <bean class="com.dottydingo.hyperion.northwind.service.translator.CustomerTranslator"
                                           init-method="init"/>
                                 </property>
-                                <property name="validator" ref="noOpValidator"/>
+                                <property name="validator">
+                                    <bean class="com.dottydingo.hyperion.northwind.service.validation.CustomerValidator"/>
+                                </property>
                             </bean>
                         </list>
                     </property>

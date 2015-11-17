@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class CustomerTranslator extends DefaultAuditingTranslator<Customer,PersistentCustomer>
 {
-    @Autowired
-    private RegionIdFieldMapper regionIdFieldMapper;
 
     public CustomerTranslator()
     {
@@ -26,7 +24,6 @@ public class CustomerTranslator extends DefaultAuditingTranslator<Customer,Persi
     {
         List<FieldMapper> fieldMappers = new ArrayList<>();
         fieldMappers.addAll(super.getCustomFieldMappers());
-        fieldMappers.add(regionIdFieldMapper);
         return fieldMappers;
     }
 }

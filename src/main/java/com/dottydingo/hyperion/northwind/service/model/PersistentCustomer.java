@@ -1,7 +1,10 @@
 package com.dottydingo.hyperion.northwind.service.model;
 
 import com.dottydingo.hyperion.northwind.api.CustomerCreditRatingType;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -30,9 +33,8 @@ public class PersistentCustomer extends BaseNorthwindPersistentObject
     @Column(name = "city", length = 30)
     private String city;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "region_id")
-    private PersistentRegion region;
+    @Column(name = "region_id")
+    private Long regionId;
 
     @Column(name = "postal_code", length = 10)
     private String postalCode;
@@ -49,6 +51,11 @@ public class PersistentCustomer extends BaseNorthwindPersistentObject
     @Column(name = "credit_rating", length = 50)
     @Enumerated(EnumType.STRING)
     private CustomerCreditRatingType creditRating = CustomerCreditRatingType.NONE;
+
+    // for queries
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "region_id",insertable = false,updatable = false)
+    private PersistentRegion region;
 
     public String getCompanyName()
     {
@@ -100,14 +107,14 @@ public class PersistentCustomer extends BaseNorthwindPersistentObject
         this.city = city;
     }
 
-    public PersistentRegion getRegion()
+    public Long getRegionId()
     {
-        return region;
+        return regionId;
     }
 
-    public void setRegion(PersistentRegion region)
+    public void setRegionId(Long regionId)
     {
-        this.region = region;
+        this.regionId = regionId;
     }
 
     public String getPostalCode()

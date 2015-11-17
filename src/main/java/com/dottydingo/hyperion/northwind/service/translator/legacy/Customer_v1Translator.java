@@ -5,8 +5,6 @@ import com.dottydingo.hyperion.core.translation.DefaultFieldMapper;
 import com.dottydingo.hyperion.core.translation.FieldMapper;
 import com.dottydingo.hyperion.northwind.api.legacy.Customer_v1;
 import com.dottydingo.hyperion.northwind.service.model.PersistentCustomer;
-import com.dottydingo.hyperion.northwind.service.translator.RegionIdFieldMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,6 @@ import java.util.List;
  */
 public class Customer_v1Translator extends DefaultAuditingTranslator<Customer_v1,PersistentCustomer>
 {
-    @Autowired
-    private RegionIdFieldMapper regionIdFieldMapper;
 
     public Customer_v1Translator()
     {
@@ -28,7 +24,6 @@ public class Customer_v1Translator extends DefaultAuditingTranslator<Customer_v1
     {
         List<FieldMapper> fieldMappers = new ArrayList<>();
         fieldMappers.addAll(super.getCustomFieldMappers());
-        fieldMappers.add(regionIdFieldMapper);
         fieldMappers.add(new DefaultFieldMapper("zipCode","postalCode",null));
         return fieldMappers;
     }
