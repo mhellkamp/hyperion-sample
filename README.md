@@ -1,3 +1,5 @@
+Outdated, see https://github.com/dottydingo/hyperion-sample for the latest
+
 hyperion-sample
 ===============
 
